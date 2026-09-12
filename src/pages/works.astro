@@ -1,0 +1,158 @@
+---
+import Layout from '../layouts/Layout.astro';
+import OrgIcon from '../components/OrgIcon.astro';
+
+// Set `icon` to a path under /public/icons/<name>.svg to tag an org with its
+// icon. Falls back to initials until then.
+const experience = [
+  {
+    org: 'AudioShakeAI',
+    link: 'https://www.audioshake.ai/',
+    icon: null,
+    roles: [
+      {
+        role: 'Software Engineer',
+        period: 'Present',
+        description: 'Software engineer building audio & music technology.',
+      },
+    ],
+  },
+  {
+    org: 'YouTube',
+    link: null,
+    icon: '/icons/youtube.svg',
+    roles: [
+      {
+        role: 'Software Engineer',
+        period: 'Aug 2018',
+        description: 'Software engineer on YouTube Music search & voice.',
+        projects: [
+          'Implemented voice search',
+          'Designed and implemented music search cards',
+          'Added search suggest on the backend and frontend',
+          'Implemented Google Music/YouTube Music library search, letting clients search their saved & uploaded songs',
+        ],
+      },
+      {
+        role: 'Software Engineering Intern',
+        period: 'May 2017 – Aug 2017',
+        description: 'YouTube Music iOS Developer (Front-End).',
+        projects: [
+          'Introduced iPad-specific views and tests, bringing iPad to 1:1 parity with iPhone',
+          'Fixed bugs across tooltips, onboarding, orientation animations, and iPad latency',
+          'Replaced deprecated rotation/sizing code with trait collections and size classes',
+          'Added a new watch view page for iPad',
+        ],
+      },
+    ],
+  },
+  {
+    org: 'Google',
+    link: null,
+    icon: '/icons/google.svg',
+    roles: [
+      {
+        role: 'Software Engineering Practicum Intern',
+        period: 'May 2016 – Aug 2016',
+        description:
+          'Parallelized Google Cloud Container Builder, cutting dashboard RPC load time from 56s to 6s.',
+      },
+      {
+        role: 'Software Engineering Practicum Intern',
+        period: 'May 2015 – Aug 2015',
+        description: 'Built a dynamic dashboard for the Display Ads F1 migration pipeline.',
+      },
+    ],
+  },
+  {
+    org: 'Looklive',
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'Junior iOS Developer',
+        period: 'Jan 2017 – Jan 2018',
+        description:
+          'Login, user tagging, and Swift 3 integration. UI improvements across onboarding, product, and discovery.',
+      },
+    ],
+  },
+  {
+    org: "Shea'd",
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'iOS Application',
+        period: 'Mar 2019 – Present',
+        description: 'iOS app helping people find black-owned businesses in the Bay Area.',
+      },
+    ],
+  },
+  {
+    org: 'Push',
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'Push Playlists — Music Blog',
+        period: 'Sep 2018 – Present',
+        description:
+          'Music blog exploring the intersection of music and movement. Curated 50–70 playlists from different influencers.',
+        link: 'https://pushplaylists.com',
+      },
+      {
+        role: 'Push Music — Developer / Founding Member',
+        period: 'Jan 2016 – Jan 2018',
+        description:
+          'Real-time collaborative playlist app built with Swift, Firebase, AVFoundation, and Parse.',
+        link: null,
+      },
+    ],
+  },
+];
+---
+
+<Layout title="Works | I Conteh" description="I Conteh. Works.">
+  <div class="max-w-7xl mx-auto px-5 py-[20vh] space-y-16">
+    <div class="flex gap-6">
+      <a class="text-lg font-bold underline" href="/resume.pdf" target="_blank" rel="noopener noreferrer">resume</a>
+      <a class="text-lg font-bold underline" href="https://www.linkedin.com/in/ibrahim-conteh-42a518b2/" target="_blank" rel="noopener noreferrer">linkedin</a>
+    </div>
+
+    <div class="space-y-12">
+      {experience.map((company) => (
+        <section class="flex gap-4">
+          <OrgIcon label={company.org} src={company.icon} />
+          <div class="flex-1 space-y-4">
+            <p class="text-lg font-bold">
+              {company.link ? (
+                <a href={company.link} target="_blank" rel="noopener noreferrer" class="underline">{company.org}</a>
+              ) : company.org}
+            </p>
+            <div class="space-y-4">
+              {company.roles.map((role) => (
+                <div class="space-y-1">
+                  <p class="text-base font-bold">
+                    {role.link ? (
+                      <a href={role.link} target="_blank" rel="noopener noreferrer" class="underline">{role.role}</a>
+                    ) : role.role}
+                  </p>
+                  <p class="text-sm text-foreground/60">{role.period}</p>
+                  <p class="text-base">{role.description}</p>
+                  {role.projects && (
+                    <ul class="list-disc space-y-1 pl-5">
+                      {role.projects.map((project) => (
+                        <li class="text-base">{project}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</Layout>

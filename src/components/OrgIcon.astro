@@ -1,0 +1,24 @@
+---
+interface Props {
+  label: string;
+  src?: string | null;
+}
+
+const { label, src } = Astro.props;
+const initials = label
+  .split(/\s+/)
+  .map((word) => word[0])
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+---
+
+{src ? (
+  <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-foreground/20 p-2">
+    <img src={src} alt={label} class="h-full w-full object-contain" />
+  </span>
+) : (
+  <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-foreground/20 text-xs font-bold">
+    {initials}
+  </span>
+)}
