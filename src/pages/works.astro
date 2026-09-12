@@ -13,7 +13,17 @@ const experience = [
       {
         role: 'Software Engineer',
         period: 'Present',
-        description: 'Software engineer building audio & music technology.',
+        description: 'Software engineer building audio and music technology.',
+        projects: [
+          {
+            text: 'Designed and implemented v1 of the AudioShake API — a REST API on Fastify/Node.js with middleware hooks for business logic and audio handling',
+            link: 'https://developer.audioshake.ai/',
+          },
+          'Designed and implemented a credit/invoicing system, built on Stripe, that let clients sign up, buy credits, and start using the API immediately — replacing a manual process where clients needed a first-party client or had to request tokens directly from us',
+          "Designed and implemented an embeddable iframe widget that let non-developer clients host AudioShake's stem separation tech on their own site — detecting audio URLs from host page elements, polling the API for processing progress, and zipping up the resulting stems",
+          'Launched the developer documentation site',
+          'Maintained and improved core client infrastructure — Node.js/TypeScript services, containerized and scaled via AWS ELB, backed by S3 and RDS',
+        ],
       },
     ],
   },
@@ -24,19 +34,97 @@ const experience = [
     roles: [
       {
         role: 'Software Engineer',
-        period: 'Aug 2018',
-        description: 'Software engineer on YouTube Music search & voice.',
+        period: 'Aug 2018 - May 2021',
+        description: 'Software engineer on YouTube Music search and voice.',
         projects: [
-          'Implemented voice search',
+          'Implemented voice search and introduced it to the YouTube Music iOS app',
           'Designed and implemented music search cards',
-          'Added search suggest on the backend and frontend',
-          'Implemented Google Music/YouTube Music library search, letting clients search their saved & uploaded songs',
+          {
+            text: "Hooked up YouTube's search suggest service (prefix/fuzzy matching combined with YouTube's algorithmic boosting) on the backend and built the client-side UI, letting users play songs and navigate to album/artist pages directly from the search bar context",
+            videos: [
+              { src: '/media/search-suggest-demo.gif', label: 'Search suggest demo' },
+              { src: '/media/last-10-search-demo.gif', label: 'Last 10 search entities demo' },
+            ],
+          },
+          {
+            text: "Implemented Google Music/YouTube Music library search — fuzzy matching against a client's personal uploads and saved songs — supporting the Google Play Music sunset; still a feature in the app today",
+            video: '/media/library-search-demo.gif',
+          },
         ],
       },
+    ],
+  },
+];
+
+const personalProjects = [
+  {
+    org: "Shea'd",
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'iOS Application',
+        period: 'Mar 2019 – Mar 2021',
+        description: 'iOS app helping people find black-owned businesses in the Bay Area.',
+        projects: [
+          {
+            text: 'Won the Black Ambition Prize',
+            link: 'https://blackambitionprize.com/prize_winners/shead/',
+          },
+          {
+            text: 'Featured on ABC7 News (2020)',
+            link: 'https://abc7news.com/post/new-app-helps-promote-black-owned-businesses-in-bay-area/6254793/',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    org: 'Push',
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'Push Playlists — Music Blog',
+        period: 'Sep 2018 – Sep 2019',
+        description:
+          'Music blog exploring the intersection of music and movement. Curated 50–70 playlists from different influencers.',
+        link: 'https://pushplaylists.com',
+      },
+      {
+        role: 'Push Music — Developer / Founding Member',
+        period: 'Jan 2016 – Jan 2018',
+        description:
+          'Real-time collaborative playlist app built with Swift, Firebase, AVFoundation, and Parse.',
+        link: null,
+      },
+    ],
+  },
+];
+
+const internships = [
+  {
+    org: 'Looklive',
+    link: null,
+    icon: null,
+    roles: [
+      {
+        role: 'Junior iOS Developer',
+        period: 'Jan 2017 – Jan 2018',
+        description:
+          'Built login and user tagging, integrated Swift 3, and improved UI across onboarding, product, and discovery.',
+      },
+    ],
+  },
+  {
+    org: 'YouTube',
+    link: null,
+    icon: '/icons/youtube.svg',
+    roles: [
       {
         role: 'Software Engineering Intern',
         period: 'May 2017 – Aug 2017',
-        description: 'YouTube Music iOS Developer (Front-End).',
+        description: 'iOS developer (front-end) on YouTube Music.',
         projects: [
           'Introduced iPad-specific views and tests, bringing iPad to 1:1 parity with iPhone',
           'Fixed bugs across tooltips, onboarding, orientation animations, and iPad latency',
@@ -64,95 +152,149 @@ const experience = [
       },
     ],
   },
-  {
-    org: 'Looklive',
-    link: null,
-    icon: null,
-    roles: [
-      {
-        role: 'Junior iOS Developer',
-        period: 'Jan 2017 – Jan 2018',
-        description:
-          'Login, user tagging, and Swift 3 integration. UI improvements across onboarding, product, and discovery.',
-      },
-    ],
-  },
-  {
-    org: "Shea'd",
-    link: null,
-    icon: null,
-    roles: [
-      {
-        role: 'iOS Application',
-        period: 'Mar 2019 – Present',
-        description: 'iOS app helping people find black-owned businesses in the Bay Area.',
-      },
-    ],
-  },
-  {
-    org: 'Push',
-    link: null,
-    icon: null,
-    roles: [
-      {
-        role: 'Push Playlists — Music Blog',
-        period: 'Sep 2018 – Present',
-        description:
-          'Music blog exploring the intersection of music and movement. Curated 50–70 playlists from different influencers.',
-        link: 'https://pushplaylists.com',
-      },
-      {
-        role: 'Push Music — Developer / Founding Member',
-        period: 'Jan 2016 – Jan 2018',
-        description:
-          'Real-time collaborative playlist app built with Swift, Firebase, AVFoundation, and Parse.',
-        link: null,
-      },
-    ],
-  },
+];
+
+const sections = [
+  { title: 'Experience', companies: experience },
+  { title: 'Internships', companies: internships },
+  { title: 'Personal Projects', companies: personalProjects },
 ];
 ---
 
 <Layout title="Works | I Conteh" description="I Conteh. Works.">
   <div class="max-w-7xl mx-auto px-5 py-[20vh] space-y-16">
-    <div class="flex gap-6">
+    <div class="flex justify-center gap-6">
       <a class="text-lg font-bold underline" href="/resume.pdf" target="_blank" rel="noopener noreferrer">resume</a>
       <a class="text-lg font-bold underline" href="https://www.linkedin.com/in/ibrahim-conteh-42a518b2/" target="_blank" rel="noopener noreferrer">linkedin</a>
     </div>
 
-    <div class="space-y-12">
-      {experience.map((company) => (
-        <section class="flex gap-4">
-          <OrgIcon label={company.org} src={company.icon} />
-          <div class="flex-1 space-y-4">
-            <p class="text-lg font-bold">
-              {company.link ? (
-                <a href={company.link} target="_blank" rel="noopener noreferrer" class="underline">{company.org}</a>
-              ) : company.org}
-            </p>
-            <div class="space-y-4">
-              {company.roles.map((role) => (
-                <div class="space-y-1">
-                  <p class="text-base font-bold">
-                    {role.link ? (
-                      <a href={role.link} target="_blank" rel="noopener noreferrer" class="underline">{role.role}</a>
-                    ) : role.role}
-                  </p>
-                  <p class="text-sm text-foreground/60">{role.period}</p>
-                  <p class="text-base">{role.description}</p>
-                  {role.projects && (
-                    <ul class="list-disc space-y-1 pl-5">
-                      {role.projects.map((project) => (
-                        <li class="text-base">{project}</li>
-                      ))}
-                    </ul>
-                  )}
+    {sections.map((section) => (
+      <div class="space-y-8">
+        <h2 class="text-2xl font-bold">{section.title}</h2>
+        <div class="space-y-12">
+          {section.companies.map((company) => (
+            <section class="flex gap-4">
+              <OrgIcon label={company.org} src={company.icon} />
+              <div class="flex-1 space-y-4">
+                <p class="text-lg font-bold">
+                  {company.link ? (
+                    <a href={company.link} target="_blank" rel="noopener noreferrer" class="underline">{company.org}</a>
+                  ) : company.org}
+                </p>
+                <div class="space-y-4">
+                  {company.roles.map((role) => (
+                    <div class="space-y-1">
+                      <p class="text-base font-bold">
+                        {role.link ? (
+                          <a href={role.link} target="_blank" rel="noopener noreferrer" class="underline">{role.role}</a>
+                        ) : role.role}
+                      </p>
+                      <p class="text-sm text-foreground/60">{role.period}</p>
+                      <p class="text-base">{role.description}</p>
+                      {role.projects && (
+                        <ul class="list-disc space-y-1 pl-5">
+                          {role.projects.map((project) => (
+                            <li class="text-base">
+                              {typeof project === 'string' ? (
+                                project
+                              ) : project.link ? (
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" class="underline">{project.text}</a>
+                              ) : (
+                                project.text
+                              )}
+                              {typeof project !== 'string' && project.video && (
+                                <button
+                                  type="button"
+                                  class="video-trigger inline-flex align-middle ml-1.5 cursor-pointer text-foreground/50 hover:text-foreground"
+                                  data-video={project.video}
+                                  data-alt={project.text}
+                                  aria-label="Watch demo"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                    <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+                                    <path d="M16 10l6-3v10l-6-3"></path>
+                                  </svg>
+                                </button>
+                              )}
+                              {typeof project !== 'string' && project.videos && project.videos.map((v) => (
+                                <button
+                                  type="button"
+                                  class="video-trigger inline-flex align-middle ml-1.5 cursor-pointer text-foreground/50 hover:text-foreground"
+                                  data-video={v.src}
+                                  data-alt={v.label}
+                                  aria-label={`Watch demo: ${v.label}`}
+                                  title={v.label}
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                    <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+                                    <path d="M16 10l6-3v10l-6-3"></path>
+                                  </svg>
+                                </button>
+                              ))}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
-    </div>
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    ))}
   </div>
+
+  <div
+    id="video-lightbox"
+    class="hidden fixed inset-0 z-50 items-center justify-center bg-black/70 p-6"
+  >
+    <button
+      type="button"
+      id="video-lightbox-close"
+      class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl leading-none cursor-pointer"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+    <img id="video-lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-lg" />
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('video-lightbox');
+    const lightboxImg = document.getElementById('video-lightbox-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('video-lightbox-close');
+
+    function openLightbox(src: string, alt: string) {
+      if (!lightbox || !lightboxImg) return;
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImg) return;
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      lightboxImg.src = '';
+    }
+
+    document.querySelectorAll('.video-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const src = trigger.getAttribute('data-video');
+        const alt = trigger.getAttribute('data-alt') || '';
+        if (src) openLightbox(src, alt);
+      });
+    });
+
+    closeBtn?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </Layout>
