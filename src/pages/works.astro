@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import OrgIcon from '../components/OrgIcon.astro';
+import MediaTrigger from '../components/MediaTrigger.astro';
 
 // Set `icon` to a path under /public/icons/<name>.svg to tag an org with its
 // icon. Falls back to initials until then.
@@ -20,9 +21,34 @@ const experience = [
             link: 'https://developer.audioshake.ai/',
           },
           'Designed and implemented a credit/invoicing system, built on Stripe, that let clients sign up, buy credits, and start using the API immediately — replacing a manual process where clients needed a first-party client or had to request tokens directly from us',
-          "Designed and implemented an embeddable iframe widget that let non-developer clients host AudioShake's stem separation tech on their own site — detecting audio URLs from host page elements, polling the API for processing progress, and zipping up the resulting stems",
+          {
+            text: "Designed and implemented embeddable iframe widgets that let non-developer clients host AudioShake's tech on their own site — detecting audio URLs from host page elements, polling the API for processing progress, and zipping up the resulting stems",
+            subitems: [
+              {
+                text: 'Lyrics widget',
+                videos: [{ src: '/media/lyrics-widget-demo.png', label: 'Lyrics widget' }],
+              },
+            ],
+          },
           'Launched the developer documentation site',
           'Maintained and improved core client infrastructure — Node.js/TypeScript services, containerized and scaled via AWS ELB, backed by S3 and RDS',
+          'Designed and implemented a content-blocking microservice to prevent clients from uploading and splitting copyrighted content',
+          {
+            text: "Supported and maintained AudioShake's first-party client websites — a Ruby on Rails app and a TypeScript site",
+            subitems: [
+              {
+                text: 'Live',
+                videos: [{ src: '/media/live-site-demo.png', label: 'Live' }],
+              },
+              {
+                text: 'Indie',
+                videos: [
+                  { src: '/media/indie-site-demo.png', label: 'Indie' },
+                  { src: '/media/indie-project-demo.png', label: 'Indie — project view' },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
@@ -203,34 +229,28 @@ const sections = [
                                 project.text
                               )}
                               {typeof project !== 'string' && project.video && (
-                                <button
-                                  type="button"
-                                  class="video-trigger inline-flex align-middle ml-1.5 cursor-pointer text-foreground/50 hover:text-foreground"
-                                  data-video={project.video}
-                                  data-alt={project.text}
-                                  aria-label="Watch demo"
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                    <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-                                    <path d="M16 10l6-3v10l-6-3"></path>
-                                  </svg>
-                                </button>
+                                <MediaTrigger src={project.video} label={project.text} />
                               )}
                               {typeof project !== 'string' && project.videos && project.videos.map((v) => (
-                                <button
-                                  type="button"
-                                  class="video-trigger inline-flex align-middle ml-1.5 cursor-pointer text-foreground/50 hover:text-foreground"
-                                  data-video={v.src}
-                                  data-alt={v.label}
-                                  aria-label={`Watch demo: ${v.label}`}
-                                  title={v.label}
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                    <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-                                    <path d="M16 10l6-3v10l-6-3"></path>
-                                  </svg>
-                                </button>
+                                <MediaTrigger src={v.src} label={v.label} />
                               ))}
+                              {typeof project !== 'string' && project.subitems && (
+                                <ul class="list-[circle] space-y-1 pl-5 mt-1">
+                                  {project.subitems.map((sub) => (
+                                    <li class="text-base">
+                                      {sub.link ? (
+                                        <a href={sub.link} target="_blank" rel="noopener noreferrer" class="underline">{sub.text}</a>
+                                      ) : (
+                                        sub.text
+                                      )}
+                                      {sub.video && <MediaTrigger src={sub.video} label={sub.text} />}
+                                      {sub.videos && sub.videos.map((v) => (
+                                        <MediaTrigger src={v.src} label={v.label} />
+                                      ))}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -258,34 +278,40 @@ const sections = [
     >
       &times;
     </button>
-    <img id="video-lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-lg" />
+    <div class="flex flex-col items-center gap-2 max-h-[85vh] max-w-[90vw]">
+      <img id="video-lightbox-img" src="" alt="" class="max-h-[78vh] max-w-[90vw] rounded-lg" />
+      <p id="video-lightbox-caption" class="text-white/90 text-sm"></p>
+    </div>
   </div>
 
   <script>
     const lightbox = document.getElementById('video-lightbox');
     const lightboxImg = document.getElementById('video-lightbox-img') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('video-lightbox-caption');
     const closeBtn = document.getElementById('video-lightbox-close');
 
-    function openLightbox(src: string, alt: string) {
-      if (!lightbox || !lightboxImg) return;
+    function openLightbox(src: string, caption: string) {
+      if (!lightbox || !lightboxImg || !lightboxCaption) return;
       lightboxImg.src = src;
-      lightboxImg.alt = alt;
+      lightboxImg.alt = caption;
+      lightboxCaption.textContent = caption;
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
     }
 
     function closeLightbox() {
-      if (!lightbox || !lightboxImg) return;
+      if (!lightbox || !lightboxImg || !lightboxCaption) return;
       lightbox.classList.add('hidden');
       lightbox.classList.remove('flex');
       lightboxImg.src = '';
+      lightboxCaption.textContent = '';
     }
 
-    document.querySelectorAll('.video-trigger').forEach((trigger) => {
+    document.querySelectorAll('.media-trigger').forEach((trigger) => {
       trigger.addEventListener('click', () => {
-        const src = trigger.getAttribute('data-video');
-        const alt = trigger.getAttribute('data-alt') || '';
-        if (src) openLightbox(src, alt);
+        const src = trigger.getAttribute('data-media');
+        const caption = trigger.getAttribute('data-caption') || '';
+        if (src) openLightbox(src, caption);
       });
     });
 
