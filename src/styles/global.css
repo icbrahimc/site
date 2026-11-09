@@ -51,3 +51,68 @@ body {
   font-family: var(--font-sans);
   font-size: var(--font-size-max);
 }
+
+/* v2 design language */
+:root {
+  --muted: #5c594f;
+  --accent: #b3321b;
+  --placeholder: #d9d5c8;
+  --placeholder-ink: #47443c;
+}
+
+@theme inline {
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-placeholder: var(--placeholder);
+  --font-grotesk: "Hanken Grotesk", Helvetica, Arial, sans-serif;
+}
+
+body.v2 {
+  font-family: var(--font-grotesk);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 22px;
+}
+
+body.v2 a:hover {
+  color: var(--accent);
+}
+
+.label {
+  font-family: "Brutalist Mono", ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 38px;
+    line-height: 49px;
+  }
+}
+
+.body-copy {
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .body-copy {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
+.link-row {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}

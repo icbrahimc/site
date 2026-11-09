@@ -1,20 +1,43 @@
 ---
+interface Props {
+  current?: 'home' | 'works' | 'portfolio';
+}
+
+const { current } = Astro.props;
+
 const links = [
-  { label: 'iconteh', href: '/' },
-  { label: 'works', href: '/works' },
-  { label: 'music', href: 'https://eyeconteh.xyz', external: true },
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'works', label: 'Works', href: '/works' },
+  { key: 'portfolio', label: 'Portfolio', href: '/portfolio' },
+  { key: 'music', label: 'Music ↗', href: 'https://eyeconteh.xyz', external: true },
 ];
 ---
 
-<nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex gap-6 rounded-full border border-foreground/10 bg-background/80 px-5 py-2 backdrop-blur">
-  {links.map((link) => (
-    <a
-      href={link.href}
-      class="font-bold underline"
-      target={link.external ? '_blank' : undefined}
-      rel={link.external ? 'noopener noreferrer' : undefined}
-    >
-      {link.label}
-    </a>
-  ))}
-</nav>
+<header class="absolute inset-x-0 top-0 z-10 flex flex-col items-start gap-0 px-5 pt-4 md:flex-row md:justify-between md:px-[50px] md:pt-6">
+  <a
+    href="/"
+    aria-label="I Conteh, home"
+    class="link-row font-mono text-[12px] font-bold uppercase tracking-[0.08em] no-underline"
+  >
+    I Conteh
+  </a>
+  <nav aria-label="Primary" class="flex flex-wrap items-center text-[16px] font-normal uppercase md:text-[24px]">
+    {links.map((link, i) => (
+      <>
+        <a
+          href={link.href}
+          class:list={[
+            'link-row',
+            current === link.key ? 'underline underline-offset-[6px] decoration-2' : 'no-underline',
+          ]}
+          aria-current={current === link.key ? 'page' : undefined}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+        >
+          {link.label}
+        </a>
+        {i < links.length - 1 && <span aria-hidden="true" class="mr-3">,</span>}
+      </>
+    ))}
+  </nav>
+</header>

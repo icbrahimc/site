@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import { portfolio } from '../../data/portfolio';
+
+export function getStaticPaths() {
+  return portfolio.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<Layout title={`${entry.title} | I Conteh`} description={entry.summary[0]} current="portfolio">
+  <main class="flex flex-col gap-20 px-5 md:gap-[140px] md:px-[50px]">
+    <div class="flex min-h-[320px] flex-col gap-6 pt-[120px] md:min-h-[520px] md:pt-[130px]">
+      <a class="link-row label no-underline" href="/portfolio">← Portfolio</a>
+      <h1 class="title">{entry.title}</h1>
+    </div>
+    <Footer />
+  </main>
+</Layout>
