@@ -1,11 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+
+// Set to a path under /public (e.g. '/media/portrait.jpg') to show a portrait.
+const portrait: string | null = null;
+
+const selected = [
+  { label: 'Present', heading: 'Audioshake, Software Engineer', body: 'Helping separate sound for humans and machines.', accent: true },
+  { label: 'Aug 2018 – May 2021', heading: 'YouTube, Software Engineer', body: 'Software engineer on YouTube Music search and voice.' },
+];
 ---
 
-<Layout>
-  <div class="max-w-7xl mx-auto px-5 py-[20vh] space-y-4">
-    <p class="text-lg">Hi, I&apos;m <span class="font-bold underline">Ibrahim</span></p>
-    <p class="text-lg">I&apos;m currently a <a class="font-bold underline" href="https://github.com/icbrahimc" target="_blank" rel="noopener noreferrer">software engineer</a> at <a class="font-bold underline" href="https://www.audioshake.ai/" target="_blank" rel="noopener noreferrer">AudioShakeAI</a></p>
-    <p class="text-lg">I also spin vinyl and play beats from time to time</p>
-  </div>
+<Layout current="home">
+  <main class="flex flex-col gap-24 px-5 md:gap-[180px] md:px-[50px]">
+    <section class="grid grid-cols-12 gap-x-5 pt-[120px] md:pt-[130px]">
+      <div class:list={['flex max-w-[560px] flex-col gap-12', portrait ? 'col-span-12 md:col-span-6' : 'col-span-12']}>
+        <h1 class="title">Hi, I&apos;m Ibrahim. I&apos;m currently a{' '}<a class="underline decoration-2 underline-offset-[6px]" href="https://github.com/icbrahimc" target="_blank" rel="noopener noreferrer">software engineer</a>{' '}at{' '}<a class="underline decoration-2 underline-offset-[6px]" href="https://www.audioshake.ai/" target="_blank" rel="noopener noreferrer">Audioshake</a>.</h1>
+        <div class="flex flex-col gap-3.5 body-copy">
+          <p>Helping separate sound for humans and machines.</p>
+          <p>I also spin vinyl and play beats from time to time</p>
+        </div>
+      </div>
+      {portrait && (
+        <img class="col-span-12 mt-10 w-full object-cover md:col-span-6 md:col-start-7 md:mt-0" src={portrait} alt="Ibrahim Conteh" />
+      )}
+    </section>
+
+    <section aria-labelledby="selected-heading" class="flex flex-col gap-10 md:gap-14">
+      <h2 id="selected-heading" class="label">Selected work</h2>
+      <div class="grid grid-cols-12 gap-x-5 gap-y-14 md:gap-y-24">
+        {selected.map((item) => (
+          <div class="col-span-12 grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 md:col-span-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-x-5">
+            <p class="label flex items-baseline gap-2">
+              {item.accent && <span aria-hidden="true" class="inline-block size-2 bg-accent" />}
+              {item.label}
+            </p>
+            <div class="flex max-w-[440px] flex-col gap-2.5">
+              <p class="font-medium uppercase">{item.heading}</p>
+              <p class="body-copy">{item.body}</p>
+            </div>
+          </div>
+        ))}
+        <div class="col-span-12 grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 md:col-span-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-x-5">
+          <p class="label">All</p>
+          <div class="flex max-w-[440px] flex-col gap-2.5">
+            <p class="font-medium uppercase"><a class="link-row underline underline-offset-4" href="/works">Works →</a></p>
+            <p class="body-copy">Experience, internships and personal projects.</p>
+          </div>
+        </div>
+        <div class="col-span-12 grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 md:col-span-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-x-5">
+          <p class="label">Case studies</p>
+          <div class="flex max-w-[440px] flex-col gap-2.5">
+            <p class="font-medium uppercase"><a class="link-row underline underline-offset-4" href="/portfolio">Portfolio →</a></p>
+            <p class="body-copy">Selected projects and how they came together.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </main>
 </Layout>

@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import OrgIcon from '../components/OrgIcon.astro';
-import MediaTrigger from '../components/MediaTrigger.astro';
+import Footer from '../components/Footer.astro';
 
 // Set `icon` to a path under /public/icons/<name>.svg to tag an org with its
 // icon. Falls back to initials until then.
@@ -74,6 +73,7 @@ const experience = [
           {
             text: "Implemented Google Music/YouTube Music library search — fuzzy matching against a client's personal uploads and saved songs — supporting the Google Play Music sunset; still a feature in the app today",
             video: '/media/library-search-demo.gif',
+            videoLabel: 'Library search demo',
           },
         ],
       },
@@ -178,6 +178,23 @@ const internships = [
   },
 ];
 
+
+type Media = { src: string; label: string };
+
+// Flattens every screenshot/video attached to a role's projects (and their
+// sub-items) into one list for the Media column.
+function collectMedia(projects: any[] | undefined): Media[] {
+  const out: Media[] = [];
+  const walk = (item: any) => {
+    if (!item || typeof item === 'string') return;
+    if (item.video) out.push({ src: item.video, label: item.videoLabel ?? item.text });
+    (item.videos ?? []).forEach((v: Media) => out.push(v));
+    (item.subitems ?? []).forEach(walk);
+  };
+  (projects ?? []).forEach(walk);
+  return out;
+}
+
 const sections = [
   { title: 'Experience', companies: experience },
   { title: 'Internships', companies: internships },
@@ -185,84 +202,79 @@ const sections = [
 ];
 ---
 
-<Layout title="Works | I Conteh" description="I Conteh. Works.">
-  <div class="max-w-7xl mx-auto px-5 py-[20vh] space-y-16">
-    <div class="flex justify-center gap-6">
-      <a class="text-lg font-bold underline" href="/resume.pdf" target="_blank" rel="noopener noreferrer">resume</a>
-      <a class="text-lg font-bold underline" href="https://www.linkedin.com/in/ibrahim-conteh-42a518b2/" target="_blank" rel="noopener noreferrer">linkedin</a>
+<Layout title="Works | I Conteh" description="I Conteh. Works." current="works">
+  <main class="flex flex-col gap-24 px-5 md:gap-[200px] md:px-[50px]">
+    <div class="flex flex-col gap-6 pt-[120px] md:gap-8 md:pt-[130px]">
+      <h1 class="title">Works</h1>
+      <p class="flex flex-wrap items-center text-[16px] font-normal uppercase md:text-[24px]">
+        <a class="link-row no-underline" href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a><span aria-hidden="true" class="mr-3">,</span>
+        <a class="link-row no-underline" href="https://www.linkedin.com/in/ibrahim-conteh-42a518b2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </p>
     </div>
 
     {sections.map((section) => (
-      <div class="space-y-8">
-        <h2 class="text-2xl font-bold">{section.title}</h2>
-        <div class="space-y-12">
-          {section.companies.map((company) => (
-            <section class="flex gap-4">
-              <OrgIcon label={company.org} src={company.icon} />
-              <div class="flex-1 space-y-4">
-                <p class="text-lg font-bold">
-                  {company.link ? (
-                    <a href={company.link} target="_blank" rel="noopener noreferrer" class="underline">{company.org}</a>
-                  ) : company.org}
+      <section aria-labelledby={`${section.title}-heading`} class="flex flex-col gap-14">
+        <h2 id={`${section.title}-heading`} class="label">{section.title}</h2>
+        {section.companies.map((company) =>
+          company.roles.map((role: any) => {
+            const media = collectMedia(role.projects);
+            return (
+              <article class="mb-14 grid grid-cols-12 gap-x-5 gap-y-4 last:mb-0">
+                <p class="label col-span-12 flex items-baseline gap-2 md:col-span-2">
+                  {role.period === 'Present' && <span aria-hidden="true" class="inline-block size-2 bg-accent" />}
+                  {role.period}
                 </p>
-                <div class="space-y-4">
-                  {company.roles.map((role) => (
-                    <div class="space-y-1">
-                      <p class="text-base font-bold">
-                        {role.link ? (
-                          <a href={role.link} target="_blank" rel="noopener noreferrer" class="underline">{role.role}</a>
-                        ) : role.role}
-                      </p>
-                      <p class="text-sm text-foreground/60">{role.period}</p>
-                      <p class="text-base">{role.description}</p>
-                      {role.projects && (
-                        <ul class="list-disc space-y-1 pl-5">
-                          {role.projects.map((project) => (
-                            <li class="text-base">
-                              {typeof project === 'string' ? (
-                                project
-                              ) : project.link ? (
-                                <a href={project.link} target="_blank" rel="noopener noreferrer" class="underline">{project.text}</a>
-                              ) : (
-                                project.text
-                              )}
-                              {typeof project !== 'string' && project.video && (
-                                <MediaTrigger src={project.video} label={project.text} />
-                              )}
-                              {typeof project !== 'string' && project.videos && project.videos.map((v) => (
-                                <MediaTrigger src={v.src} label={v.label} />
-                              ))}
-                              {typeof project !== 'string' && project.subitems && (
-                                <ul class="list-[circle] space-y-1 pl-5 mt-1">
-                                  {project.subitems.map((sub) => (
-                                    <li class="text-base">
-                                      {sub.link ? (
-                                        <a href={sub.link} target="_blank" rel="noopener noreferrer" class="underline">{sub.text}</a>
-                                      ) : (
-                                        sub.text
-                                      )}
-                                      {sub.video && <MediaTrigger src={sub.video} label={sub.text} />}
-                                      {sub.videos && sub.videos.map((v) => (
-                                        <MediaTrigger src={v.src} label={v.label} />
-                                      ))}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
+                <div class="col-span-12 flex flex-col gap-3.5 md:col-span-5">
+                  <h3 class="font-medium uppercase">
+                    {company.link ? (
+                      <a class="underline underline-offset-4" href={company.link} target="_blank" rel="noopener noreferrer">{company.org}</a>
+                    ) : company.org}, {role.link ? (
+                      <a class="underline underline-offset-4" href={role.link} target="_blank" rel="noopener noreferrer">{role.role}</a>
+                    ) : role.role}
+                  </h3>
+                  <p class="body-copy">{role.description}</p>
+                  {role.projects && (
+                    <ul class="flex list-['–_'] flex-col gap-3 pl-[22px] body-copy">
+                      {role.projects.map((project: any) => (
+                        <li>
+                          {typeof project === 'string' ? (
+                            project
+                          ) : project.link ? (
+                            <a class="underline underline-offset-[3px]" href={project.link} target="_blank" rel="noopener noreferrer">{project.text}</a>
+                          ) : (
+                            project.text
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-              </div>
-            </section>
-          ))}
-        </div>
-      </div>
+                {media.length > 0 && (
+                  <div class="col-span-12 mt-2 flex flex-col gap-1 md:col-span-4 md:col-start-9 md:mt-0">
+                    <p class="label">Media</p>
+                    <div class="flex flex-wrap items-center gap-x-1">
+                      {media.map((m, i) => (
+                        <button
+                          type="button"
+                          class="media-trigger link-row cursor-pointer px-1 text-left uppercase underline underline-offset-4"
+                          data-media={m.src}
+                          data-caption={m.label}
+                        >
+                          {m.label}{i < media.length - 1 ? ',' : ''}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </article>
+            );
+          })
+        )}
+      </section>
     ))}
-  </div>
+
+    <Footer />
+  </main>
 
   <div
     id="video-lightbox"
