@@ -22,13 +22,19 @@ import { portfolio } from '../../data/portfolio';
             </div>
             <a class="link-row font-medium underline underline-offset-4" href={`/portfolio/${entry.slug}`}>View case study →</a>
           </div>
-          <div
-            role="img"
-            aria-label={`${entry.title} cover placeholder`}
-            class="col-span-12 mt-8 flex h-[260px] items-end bg-placeholder p-4 label !text-[#47443c] md:col-span-5 md:col-start-8 md:mt-0 md:h-[410px]"
-          >
-            [Cover image]
-          </div>
+          {entry.cover ? (
+            <div class="col-span-12 mt-8 flex h-[260px] items-center justify-center overflow-hidden bg-placeholder p-4 md:col-span-5 md:col-start-8 md:mt-0 md:h-[410px]">
+              <img class="max-h-full max-w-full object-contain" src={entry.cover} alt={`${entry.title} cover`} loading="lazy" />
+            </div>
+          ) : (
+            <div
+              role="img"
+              aria-label={`${entry.title} cover placeholder`}
+              class="col-span-12 mt-8 flex h-[260px] items-end bg-placeholder p-4 label !text-[#47443c] md:col-span-5 md:col-start-8 md:mt-0 md:h-[410px]"
+            >
+              [Cover image]
+            </div>
+          )}
         </article>
       ))}
     </section>

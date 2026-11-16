@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
+import { resumeHref } from '../data/site';
 
 // Set `icon` to a path under /public/icons/<name>.svg to tag an org with its
 // icon. Falls back to initials until then.
@@ -28,7 +29,11 @@ const experience = [
               },
             ],
           },
-          'Launched the developer documentation site',
+          {
+            text: 'Implemented the AudioShake Python library and CLI, distributed via PyPI',
+            link: 'https://pypi.org/project/audioshake/',
+          },
+          'Implemented and launched a devrel documentation site that includes information about API, widgets, and other products',
           'Maintained and improved core client infrastructure — Node.js/TypeScript services, containerized and scaled via AWS ELB, backed by S3 and RDS',
           'Designed and implemented a content-blocking microservice to prevent clients from uploading and splitting copyrighted content',
           {
@@ -207,7 +212,7 @@ const sections = [
     <div class="flex flex-col gap-6 pt-[120px] md:gap-8 md:pt-[130px]">
       <h1 class="title">Works</h1>
       <p class="flex flex-wrap items-center text-[16px] font-normal uppercase md:text-[24px]">
-        <a class="link-row no-underline" href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a><span aria-hidden="true" class="mr-3">,</span>
+        <a class="link-row no-underline" href={resumeHref} target="_blank" rel="noopener noreferrer">Resume</a><span aria-hidden="true" class="mr-3">,</span>
         <a class="link-row no-underline" href="https://www.linkedin.com/in/ibrahim-conteh-42a518b2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </p>
     </div>

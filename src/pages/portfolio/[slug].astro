@@ -1,21 +1,98 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
-import { portfolio } from '../../data/portfolio';
+import { portfolio, caseStudySections } from '../../data/portfolio';
 
 export function getStaticPaths() {
   return portfolio.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
 }
 
 const { entry } = Astro.props;
+const study = entry.study ?? {};
 ---
 
 <Layout title={`${entry.title} | I Conteh`} description={entry.summary[0]} current="portfolio">
   <main class="flex flex-col gap-20 px-5 md:gap-[140px] md:px-[50px]">
-    <div class="flex min-h-[320px] flex-col gap-6 pt-[120px] md:min-h-[520px] md:pt-[130px]">
+    <div class="flex flex-col gap-6 pt-[120px] md:pt-[130px]">
       <a class="link-row label no-underline" href="/portfolio">← Portfolio</a>
-      <h1 class="title">{entry.title}</h1>
+      <div class="grid grid-cols-12 items-start gap-x-5">
+        <p class="label col-span-12 mb-3 md:col-span-2 md:mb-0">{entry.org}</p>
+        <div class="col-span-12 flex flex-col gap-6 md:col-span-5">
+          <h1 class="title">{entry.title}</h1>
+          <div class="flex max-w-[460px] flex-col gap-3.5 body-copy">
+            {entry.summary.map((line) => <p>{line}</p>)}
+          </div>
+        </div>
+        {entry.cover ? (
+          <div class="col-span-12 mt-8 flex h-[260px] items-center justify-center overflow-hidden bg-placeholder p-4 md:col-span-5 md:col-start-8 md:mt-0 md:h-[410px]">
+            <img class="max-h-full max-w-full object-contain" src={entry.cover} alt={`${entry.title} cover`} />
+          </div>
+        ) : (
+          <div
+            role="img"
+            aria-label={`${entry.title} cover placeholder`}
+            class="col-span-12 mt-8 flex h-[260px] items-end bg-placeholder p-4 label !text-[#47443c] md:col-span-5 md:col-start-8 md:mt-0 md:h-[410px]"
+          >
+            [Cover image]
+          </div>
+        )}
+      </div>
     </div>
+
+    <div class="flex flex-col gap-16 md:gap-24">
+      {caseStudySections.map((section, i) => {
+        const content = study[section.id];
+        const paragraphs = content?.paragraphs ?? [];
+        const bullets = content?.bullets ?? [];
+        const media = content?.media ?? [];
+        const hasCopy = paragraphs.length > 0 || bullets.length > 0;
+        return (
+          <section aria-labelledby={`${section.id}-heading`} class="grid grid-cols-12 items-start gap-x-5">
+            <p class="label col-span-12 mb-3 md:col-span-2 md:mb-0">{String(i + 1).padStart(2, '0')}</p>
+            <div class="col-span-12 flex flex-col gap-6 md:col-span-5">
+              <h2 id={`${section.id}-heading`} class="title">{section.title}</h2>
+              {hasCopy ? (
+                <div class="flex max-w-[460px] flex-col gap-3.5">
+                  {paragraphs.map((line) => <p class="body-copy">{line}</p>)}
+                  {bullets.length > 0 && (
+                    <ul class="flex list-['–_'] flex-col gap-3 pl-[22px] body-copy">
+                      {bullets.map((bullet) =>
+                        typeof bullet === 'string' ? (
+                          <li>{bullet}</li>
+                        ) : bullet.link ? (
+                          <li>
+                            <a class="underline underline-offset-[3px]" href={bullet.link} target="_blank" rel="noopener noreferrer">{bullet.text}</a>
+                          </li>
+                        ) : (
+                          <li>{bullet.text}</li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                </div>
+              ) : (
+                <p class="max-w-[460px] bg-placeholder p-4 label !text-[#47443c]">
+                  [{section.title} copy]
+                </p>
+              )}
+            </div>
+            {media.length > 0 && (
+              <div class="col-span-12 mt-8 flex flex-col gap-8 md:col-span-5 md:col-start-8 md:mt-0">
+                {media.map((item) => (
+                  <figure class="flex flex-col gap-2">
+                    <div class="flex h-[260px] items-center justify-center overflow-hidden bg-placeholder p-4 md:h-[410px]">
+                      <img class="max-h-full max-w-full object-contain" src={item.src} alt={item.label} loading="lazy" />
+                    </div>
+                    <figcaption class="label">{item.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+          </section>
+        );
+      })}
+    </div>
+
     <Footer />
   </main>
 </Layout>
