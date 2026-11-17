@@ -130,7 +130,18 @@ export const portfolio: PortfolioEntry[] = [
     study: {
       thesis: {
         paragraphs: [
-          'Help people in the Bay Area find and support black-owned businesses from their phone.',
+          'I moved back to the Bay Area in 2018 after spending the last four years at Morehouse College. It was my first time experiencing the Bay Area as an adult, and the first time I experienced San Francisco and Oakland as a result.',
+          "I had watched Killer Mike's documentary about black businesses, as well as absorbed the constant feedback from friends and colleagues about how difficult it was to find black businesses in the Bay Area. There were a bunch of lists and docs everywhere, so friends and I decided to build an app based on geolocation that would show you black businesses where you currently were.",
+        ],
+      },
+      process: {
+        paragraphs: [
+          'It started off pretty basic. We wanted to be able to do something outside of work that was beneficial to our community.',
+          "We first collected all the disparate lists on the internet and from the ERG sheets at the companies we were at. We asked people in our respective communities to point out to us what businesses were indeed black and not necessarily known. We also aggregated news articles and other useful media to get a better understanding of what was out there. And we made sure not to include businesses or make assumptions about ownership, in case that information wasn't made public for a reason.",
+          "Word of mouth turned up businesses that hadn't been on any list, and we realized we needed an ingestion layer for people to make suggestions to the app for businesses to highlight. We built something low fidelity, which was ultimately a Google Form at the time.",
+          "The idea behind making it a geolocation app is that we wanted the least friction for finding a business in the neighborhood. The feedback was that once someone found a place they wanted to go to, they didn't need to continuously use the app.",
+          "We used the Mom Test to help get good feedback from folks. We didn't want people who were fond of us or our mission to direct our design decisions, as they might not have been telling the truth about their usage or whether they found the features to be useful.",
+          'We also chose iOS, unfortunately, due to time constraints and our own technical limitations — I was an iOS engineer and no one else had significant mobile experience at the time.',
         ],
       },
       'final-product': {
